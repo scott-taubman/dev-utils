@@ -1,0 +1,18 @@
+version: 1
+disable_existing_loggers: False
+
+handlers:
+  stdout:
+    class: "logging.StreamHandler"
+    formatter: default
+    stream: "ext://sys.stdout"
+
+formatters:
+  default:
+    format: "%(asctime)s - [LocalPlugin: %(process)d] - %(name)s - %(levelname)s - %(message)s"
+
+root:
+  level: INFO
+  formatter: default
+  handlers:
+    - stdout

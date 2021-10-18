@@ -1,0 +1,92 @@
+#!/bin/bash
+
+function build {
+    docker build \
+        -t beer-garden:local \
+        -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden.Dockerfile \
+        $PROJECT_HOME/beer-garden/src/app/
+}
+
+function build_ui {
+    docker build \
+        -t beer-garden-ui:local \
+        -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden-ui.Dockerfile \
+        $PROJECT_HOME/beer-garden/src/ui/
+}
+
+function build_react {
+    docker build \
+        -t beer-garden-react:local \
+        -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden-react.Dockerfile \
+        $PROJECT_HOME/react-ui/
+}
+
+function build_plugin {
+    docker build \
+        -t beer-garden-remote-plugin:local \
+        -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden-remote-plugin.Dockerfile \
+        $PROJECT_HOME/remote-plugins/
+}
+
+function start {
+    cd $PROJECT_HOME/dev-utils/beer-garden
+    docker-compose up -d bg-parent1-ui bg-parent1-ui-react beer-garden-remote-plugin bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui
+}
+
+function stop {
+    cd $PROJECT_HOME/dev-utils/beer-garden
+    docker-compose down
+}
+
+function restart {
+    docker stop bg-parent1 && docker rm bg-parent1
+    start
+}
+
+function log {
+    docker logs --tail 20 -f bg-parent1
+}
+
+function log_ui {
+    docker logs --tail 20 -f bg-parent1-ui
+}
+
+function log_react {
+    docker logs --tail 20 -f bg-parent1-ui-react
+}
+
+function shell {
+    docker exec -it bg-parent1 /bin/bash
+}
+
+function pyshell {
+    docker exec -it bg-parent1 python
+}
+
+function docker_container_top {
+    docker container top bg-parent1 -o pid,args
+}
+
+function run_tests {
+    docker exec -it bg-parent1 bash -c "source \$HOME/venv/bin/activate && pytest -s $@"
+}
+
+command=$1
+shift
+
+case $command in
+    "build") build ;;
+    "buildui") build_ui ;;
+    "buildreact"|"buildr") build_react ;;
+    "buildplugin"|"buildp") build_plugin ;;
+    "up"|"start") start ;;
+    "down"|"stop") stop ;;
+    "restart") restart ;;
+    "log") log ;;
+    "logui") log_ui ;;
+    "logreact"|"logr") log_react ;;
+    "shell") shell ;;
+    "pyshell") pyshell ;;
+    "ps") docker_container_top ;;
+    "test") run_tests $@ ;;
+esac

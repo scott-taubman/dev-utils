@@ -1,0 +1,33 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  simple:
+    format: "%(asctime)s - [%(processName)s] - %(name)s - %(levelname)s - %(message)s"
+
+handlers:
+  stream:
+    class: "logging.StreamHandler"
+    formatter: "simple"
+    stream: "ext://sys.stdout"
+
+loggers:
+  apscheduler:
+    level: ERROR
+  asyncio:
+    level: ERROR
+  beer_garden:
+    level: INFO
+  pika:
+    level: ERROR
+  tornado:
+    level: ERROR
+  stomp:
+    level: ERROR
+  urllib3:
+    level: DEBUG
+
+root:
+  level: INFO
+  handlers:
+    - "stream"
