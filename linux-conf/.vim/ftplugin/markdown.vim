@@ -1,0 +1,7 @@
+set colorcolumn=81
+set tabstop=2 shiftwidth=2 expandtab
+
+" ALE
+let b:ale_fixers = ['prettier']
+let g:ale_javascript_prettier_options = '--prose-wrap always'
+let g:ale_fix_on_save = 1
