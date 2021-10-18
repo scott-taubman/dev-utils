@@ -45,7 +45,7 @@ function workon() {
 function beer() {
     case $1 in
         "") pyenv deactivate 2>/dev/null; cd $PROJECT_HOME/beer-garden; pyenv activate beer-garden;;
-        *) $PROJECT_HOME/dev-utils/scripts/beer $@ ;;
+        *) $PROJECT_HOME/dev-utils/beer-garden/scripts/beer $@ ;;
     esac
 }
 
