@@ -4,6 +4,7 @@ services:
   bg-parent1:
     image: beer-garden:local
     container_name: bg-parent1
+    hostname: bg-parent1
     stdin_open: true
     tty: true
     command:
@@ -30,6 +31,7 @@ services:
       - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
+      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
     depends_on:
       - mongodb
@@ -39,6 +41,7 @@ services:
   bg-child1:
     image: beer-garden:local
     container_name: bg-child1
+    hostname: bg-child1
     stdin_open: true
     tty: true
     command:
@@ -65,6 +68,7 @@ services:
       - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
+      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
     depends_on:
       - mongodb
@@ -74,6 +78,7 @@ services:
   bg-child2:
     image: beer-garden:local
     container_name: bg-child2
+    hostname: bg-child2
     stdin_open: true
     tty: true
     command:
@@ -100,6 +105,7 @@ services:
       - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
+      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
     depends_on:
       - mongodb
@@ -109,6 +115,7 @@ services:
   bg-child2-grandchild1:
     image: beer-garden:local
     container_name: bg-child2-grandchild1
+    hostname: bg-child2-grandchild1
     stdin_open: true
     tty: true
     command:
@@ -135,6 +142,7 @@ services:
       - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
+      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
     depends_on:
       - mongodb
