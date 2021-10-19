@@ -1,4 +1,6 @@
+" -------------------------------------
 " vim-plug
+" -------------------------------------
 call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'
 Plug 'dense-analysis/ale'
@@ -15,7 +17,9 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'peitalin/vim-jsx-typescript'
 call plug#end()
 
-"set t_Co=256
+" -------------------------------------
+" general options
+" -------------------------------------
 set number
 set nowrap
 set encoding=utf-8
@@ -26,6 +30,40 @@ set wildignore=*.pyc,*/__pycache__*
 " colors
 colorscheme codedark
 
+" -------------------------------------
+" general keybindings
+" -------------------------------------
+" Easy close buffer
+nnoremap <C-c> :b#<bar>bd#<bar>b<CR>
+
+" Close all buffers except for the current one
+nnoremap <Leader>c :%bd<bar>e#<CR>
+
+" Easy switch buffers
+nnoremap <C-j> :bp<CR>
+nnoremap <C-k> :bn<CR>
+nnoremap <Leader>p :CtrlPBuffer<CR>
+
+" Remove trailing whitespace
+nnoremap <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s<CR>
+
+" Toggle line numbers and colorcolumn
+nnoremap <F2> :set invnumber<CR> :call <SID>ToggleColorColumn()<CR>
+
+let s:color_column_old = 0
+function! s:ToggleColorColumn()
+    if s:color_column_old == 0
+        let s:color_column_old = &colorcolumn
+        windo let &colorcolumn = 0
+    else
+        windo let &colorcolumn=s:color_column_old
+        let s:color_column_old = 0
+    endif
+endfunction
+
+" -------------------------------------
+" plugin options
+" -------------------------------------
 " ctrlp
 let g:ctrlp_custom_ignore = 'node_modules\|\.pyc$\|__pycache__'
 
@@ -45,23 +83,6 @@ if executable('ag')
     let g:ackprg = 'ag --vimgrep'
 endif
 
-" Easy close buffer
-nnoremap <C-c> :b#<bar>bd#<bar>b<CR>
-
-" Close all buffers except for the current one
-nnoremap <Leader>c :%bd<bar>e#<CR>
-
-" Easy switch buffers
-nnoremap <C-j> :bp<CR>
-nnoremap <C-k> :bn<CR>
-nnoremap <Leader>p :CtrlPBuffer<CR>
-
-" Toggle line numbers and colorcolumn
-nnoremap <F2> :set invnumber<CR> :call <SID>ToggleColorColumn()<CR>
-
-" Remove trailing whitespace
-nnoremap <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s<CR>
-
 " ALE
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
@@ -72,16 +93,5 @@ function! ToggleAleFixOnSave()
         let g:ale_fix_on_save = 0
     else
         let g:ale_fix_on_save = 1
-    endif
-endfunction
-
-let s:color_column_old = 0
-function! s:ToggleColorColumn()
-    if s:color_column_old == 0
-        let s:color_column_old = &colorcolumn
-        windo let &colorcolumn = 0
-    else
-        windo let &colorcolumn=s:color_column_old
-        let s:color_column_old = 0
     endif
 endfunction

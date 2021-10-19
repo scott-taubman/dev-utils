@@ -12,6 +12,7 @@ export PYTHONDONTWRITEBYTECODE=1
 # pyenv
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"

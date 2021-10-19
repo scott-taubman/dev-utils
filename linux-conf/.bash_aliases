@@ -22,7 +22,7 @@ alias gc="git checkout"
 alias gf="git fetch"
 alias gp="git pull"
 
-alias brew='pyenv deactivate 2>/dev/null; cd $PROJECT_HOME/brewtils; pyenv activate brewtils38'
+alias brew='pyenv deactivate 2>/dev/null; cd $PROJECT_HOME/brewtils; pyenv activate brewtils'
 alias dev='cd $PROJECT_HOME/dev-utils'
 alias dev-utils='cd $PROJECT_HOME/dev-utils'
 alias react='cd $PROJECT_HOME/react-ui'
