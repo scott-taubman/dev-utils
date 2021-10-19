@@ -186,7 +186,7 @@ services:
       - "8080:8080"
     volumes:
       - $PROJECT_HOME/beer-garden/src/ui:/home/brewmeister/beer-garden/ui
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-parent1.js:/home/brewmeister/beer-garden/ui/webpack.dev-utils.js
+      - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-parent1.js:/opt/conf/webpack.dev-utils.js
     depends_on:
       - bg-parent1
 
@@ -201,7 +201,7 @@ services:
       - "8484:8484"
     volumes:
       - $PROJECT_HOME/beer-garden/src/ui:/home/brewmeister/beer-garden/ui
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-child1.js:/home/brewmeister/beer-garden/ui/webpack.dev-utils.js
+      - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-child1.js:/opt/conf/webpack.dev-utils.js
     depends_on:
       - bg-child1
 
@@ -216,7 +216,7 @@ services:
       - "8585:8585"
     volumes:
       - $PROJECT_HOME/beer-garden/src/ui:/home/brewmeister/beer-garden/ui
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-child2.js:/home/brewmeister/beer-garden/ui/webpack.dev-utils.js
+      - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-child2.js:/opt/conf/webpack.dev-utils.js
     depends_on:
       - bg-child2
 

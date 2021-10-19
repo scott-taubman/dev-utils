@@ -4,6 +4,7 @@ function build {
     docker build \
         -t beer-garden:local \
         -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden.Dockerfile \
+        --build-arg user_uid=`id -u` \
         $PROJECT_HOME/beer-garden/src/app/
 }
 
@@ -11,6 +12,7 @@ function build_ui {
     docker build \
         -t beer-garden-ui:local \
         -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden-ui.Dockerfile \
+        --build-arg user_uid=`id -u` \
         $PROJECT_HOME/beer-garden/src/ui/
 }
 
@@ -18,6 +20,7 @@ function build_react {
     docker build \
         -t beer-garden-react:local \
         -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden-react.Dockerfile \
+        --build-arg user_uid=`id -u` \
         $PROJECT_HOME/react-ui/
 }
 
@@ -25,12 +28,13 @@ function build_plugin {
     docker build \
         -t beer-garden-remote-plugin:local \
         -f $PROJECT_HOME/dev-utils/beer-garden/beer-garden-remote-plugin.Dockerfile \
+        --build-arg user_uid=`id -u` \
         $PROJECT_HOME/remote-plugins/
 }
 
 function start {
     cd $PROJECT_HOME/dev-utils/beer-garden
-    docker-compose up -d bg-parent1-ui bg-parent1-ui-react beer-garden-remote-plugin bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui
+    docker-compose up -d bg-parent1-ui bg-parent1-ui-react bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui
 }
 
 function stop {
