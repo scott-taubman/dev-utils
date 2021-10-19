@@ -12,4 +12,4 @@ WORKDIR $install_dir
 ENV NODE_PATH $install_dir/node_modules:$install_dir
 
 ENTRYPOINT ["bash"]
-CMD ["-c", "npm install && npm run env -- webpack-dev-server --config /opt/conf/webpack.dev-utils.js"]
+CMD ["-c", "cp -R /opt/beer-garden/ui/* ./ && npm install && npm run env -- webpack-dev-server --config /opt/conf/webpack.dev-utils.js"]
