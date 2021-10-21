@@ -75,6 +75,16 @@ function run_tests {
     docker exec -it bg-parent1 bash -c "source \$HOME/venv/bin/activate && pytest -s $@"
 }
 
+function edit_conf {
+    if [ "$1" = "" ]; then
+        garden="parent1"
+    else
+        garden=$1
+    fi
+
+    vim $PROJECT_HOME/dev-utils/beer-garden/conf/bg-${garden}.yaml
+}
+
 command=$1
 shift
 
@@ -89,6 +99,7 @@ case $command in
     "log") log ;;
     "logui") log_ui ;;
     "logreact"|"logr") log_react ;;
+    "conf") edit_conf $1 ;;
     "shell") shell ;;
     "pyshell") pyshell ;;
     "ps") docker_container_top ;;
