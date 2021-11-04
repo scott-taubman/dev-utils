@@ -11,6 +11,7 @@ connect(db=f"{hostname}", host="mongodb://mongodb")
 ############################
 read_only = Role.objects.get(name="read_only")
 operator = Role.objects.get(name="operator")
+superuser = Role.objects.get(name="superuser")
 
 p1_read_only_ra1 = RoleAssignment(
     role=read_only, domain={"scope": "Garden", "identifiers": {"name": "parent1"}}
@@ -24,6 +25,8 @@ c1_read_only_ra1 = RoleAssignment(
 echo_operator_ra1 = RoleAssignment(
     role=operator, domain={"scope": "System", "identifiers": {"name": "echo"}}
 )
+global_read_only_ra1 = RoleAssignment(role=read_only, domain={"scope": "Global"})
+global_superuser_ra1 = RoleAssignment(role=superuser, domain={"scope": "Global"})
 
 p1_operator = User(username="p1-operator")
 p1_operator.set_password("password")
@@ -44,6 +47,16 @@ echo_operator = User(username="echo-operator")
 echo_operator.set_password("password")
 echo_operator.role_assignments = [echo_operator_ra1]
 echo_operator.save()
+
+global_read_only = User(username="global-read_only")
+global_read_only.set_password("password")
+global_read_only.role_assignments = [global_read_only_ra1]
+global_read_only.save()
+
+global_superuser = User(username="global-superuser")
+global_superuser.set_password("password")
+global_superuser.role_assignments = [global_superuser_ra1]
+global_superuser.save()
 
 ############################
 # Garden setup

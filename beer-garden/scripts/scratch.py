@@ -8,7 +8,7 @@ from mongoengine import connect, disconnect
 import beer_garden.config
 from beer_garden.db.mongo.api import to_brewtils
 from beer_garden.db.mongo.models import (Garden, Job, Request, Role,
-                                         RoleAssignment, System, User)
+                                         RoleAssignment, System, User, RefreshToken)
 
 hostname = os.uname().nodename
 
