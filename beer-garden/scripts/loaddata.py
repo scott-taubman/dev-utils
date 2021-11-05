@@ -26,19 +26,19 @@ echo_operator_ra1 = RoleAssignment(
     role=operator, domain={"scope": "System", "identifiers": {"name": "echo"}}
 )
 global_read_only_ra1 = RoleAssignment(role=read_only, domain={"scope": "Global"})
-global_superuser_ra1 = RoleAssignment(role=superuser, domain={"scope": "Global"})
+admin_ra1 = RoleAssignment(role=superuser, domain={"scope": "Global"})
 
 p1_operator = User(username="p1-operator")
 p1_operator.set_password("password")
 p1_operator.role_assignments = [p1_operator_ra1]
 p1_operator.save()
 
-p1_read_only = User(username="p1-read_only")
+p1_read_only = User(username="p1-read")
 p1_read_only.set_password("password")
 p1_read_only.role_assignments = [p1_read_only_ra1]
 p1_read_only.save()
 
-p1c1_read_only = User(username="p1c1-read_only")
+p1c1_read_only = User(username="p1c1-read")
 p1c1_read_only.set_password("password")
 p1c1_read_only.role_assignments = [p1_read_only_ra1, c1_read_only_ra1]
 p1c1_read_only.save()
@@ -48,15 +48,15 @@ echo_operator.set_password("password")
 echo_operator.role_assignments = [echo_operator_ra1]
 echo_operator.save()
 
-global_read_only = User(username="global-read_only")
+global_read_only = User(username="global-read")
 global_read_only.set_password("password")
 global_read_only.role_assignments = [global_read_only_ra1]
 global_read_only.save()
 
-global_superuser = User(username="global-superuser")
-global_superuser.set_password("password")
-global_superuser.role_assignments = [global_superuser_ra1]
-global_superuser.save()
+admin = User(username="admin")
+admin.set_password("password")
+admin.role_assignments = [admin_ra1]
+admin.save()
 
 ############################
 # Garden setup
