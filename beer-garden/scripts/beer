@@ -34,7 +34,14 @@ function build_plugin {
 
 function start {
     cd $PROJECT_HOME/dev-utils/beer-garden
-    docker-compose up -d bg-parent1-ui bg-parent1-ui-react bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui
+
+    if [ "$1" = "all" ]; then
+        container_list="bg-parent1-ui bg-parent1-ui-react bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui"
+    else
+        container_list="bg-parent1-ui"
+    fi
+
+    docker-compose up -d $container_list
 }
 
 function stop {
@@ -93,7 +100,7 @@ case $command in
     "buildui") build_ui ;;
     "buildreact"|"buildr") build_react ;;
     "buildplugin"|"buildp") build_plugin ;;
-    "up"|"start") start ;;
+    "up"|"start") start $1 ;;
     "down"|"stop") stop ;;
     "restart") restart ;;
     "log") log ;;

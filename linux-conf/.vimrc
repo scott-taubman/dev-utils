@@ -79,7 +79,7 @@ let g:netrw_liststyle = 3
 let g:netrw_sort_sequence = '[\/]$,*'
 
 " ignore files
-let g:netrw_list_hide= '.*\.swp$,.*\.pyc$,__pycache__'
+let g:netrw_list_hide= '.*\.swp$,.*\.pyc$,__pycache__,\(^\|\s\s\)\zs\.\S\+'
 
 " use the previous window to open file
 let g:netrw_browse_split = 4
