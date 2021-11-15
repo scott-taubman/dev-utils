@@ -118,7 +118,7 @@ plugin:
   local:
     auth:
       password: password
-      username: admin
+      username: global-superuser
     directory: ../plugins
     host_env_vars: []
     logging:
