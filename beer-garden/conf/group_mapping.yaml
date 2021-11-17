@@ -1,0 +1,18 @@
+GLOBAL_SUPERUSER:
+  role_assignments:
+    - role_name: superuser
+      domai:
+        scope: "Global"
+
+PARENT1_OPERATOR:
+  role_assignments:
+    - role_nam: read_only
+      domain:
+        scope: "Garden"
+        identifiers:
+          name: "parent1"
+    - role_name: operator
+      domain:
+        scope: "Garden"
+        identifiers:
+          name: "parent1"

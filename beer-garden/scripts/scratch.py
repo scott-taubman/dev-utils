@@ -8,6 +8,8 @@ from beer_garden.db.mongo.models import (Garden, Job, Request, Role,
                                          UserToken)
 from brewtils.schemas import (RoleAssignmentSchema, RoleSchema, UserListSchema,
                               UserSchema)
+from brewtils.rest.client import RestClient
+from brewtils.rest.easy_client import EasyClient
 from mongoengine import connect, disconnect
 
 hostname = os.uname().nodename
@@ -16,3 +18,6 @@ connect(db=f"{hostname}", host="mongodb://mongodb")
 beer_garden.config.load(
     ["-c", f"../conf/{hostname}.yaml", "-l", "../conf/app-logging.yaml"]
 )
+
+ec = EasyClient(bg_host="localhost", bg_port=2337, ssl_enabled=False)
+rc = RestClient(bg_host="localhost", bg_port=2337, ssl_enabled=False)

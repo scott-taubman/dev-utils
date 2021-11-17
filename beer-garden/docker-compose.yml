@@ -1,154 +1,94 @@
 version: "3.5"
 
+x-environment: &environment
+  PYTHONDONTWRITEBYTECODE: 1
+  PYTHONUNBUFFERED: 1
+  PYTHONBREAKPOINT: remote_pdb.set_trace
+  REMOTE_PDB_HOST: 0.0.0.0
+
+x-volumes: &volumes
+  - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
+  - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
+  - $PROJECT_HOME:/opt/libraries
+  - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
+  - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
+  - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
+  - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
+  - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
+
+x-depends-on: &depends_on
+  - mongodb
+  - rabbitmq
+  - activemq
+
+x-beer-garden: &beergarden
+  image: beer-garden:local
+  stdin_open: true
+  tty: true
+  command:
+    [
+      "-c",
+      "source /home/brewmeister/venv/bin/activate && /opt/scripts/move_sitecustomize.sh && python bin/app.py -c $$BEER_GARDEN_CONF -l ../conf/app-logging.yaml",
+    ]
+  networks:
+    - bg-network
+  volumes: *volumes
+  depends_on: *depends_on
+
 services:
   bg-parent1:
-    image: beer-garden:local
+    <<: *beergarden
     container_name: bg-parent1
     hostname: bg-parent1
-    stdin_open: true
-    tty: true
-    command:
-      [
-        "-c",
-        "source /home/brewmeister/venv/bin/activate && /opt/scripts/move_sitecustomize.sh && python bin/app.py -c ../conf/bg-parent1.yaml -l ../conf/app-logging.yaml",
-      ]
     environment:
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
-      PYTHONBREAKPOINT: remote_pdb.set_trace
-      REMOTE_PDB_HOST: 0.0.0.0
+      <<: *environment
       REMOTE_PDB_PORT: 3333
-    networks:
-      - bg-network
+      BEER_GARDEN_CONF: ../conf/bg-parent1.yaml
     ports:
       - "2337:2337"
       - "2338:2338"
       - "3333:3333"
-    volumes:
-      - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
-      - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
-      - $PROJECT_HOME:/opt/libraries
-      - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
-      - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
-      - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
-      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
-      - $PROJECT_HOME/dev-utils/beer-garden/scripts/loaddata.py:/opt/loaddata.py
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
-    depends_on:
-      - mongodb
-      - rabbitmq
-      - activemq
 
   bg-child1:
-    image: beer-garden:local
+    <<: *beergarden
     container_name: bg-child1
     hostname: bg-child1
-    stdin_open: true
-    tty: true
-    command:
-      [
-        "-c",
-        "source /home/brewmeister/venv/bin/activate && /opt/scripts/move_sitecustomize.sh && python bin/app.py -c ../conf/bg-child1.yaml -l ../conf/app-logging.yaml",
-      ]
     environment:
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
-      PYTHONBREAKPOINT: remote_pdb.set_trace
-      REMOTE_PDB_HOST: 0.0.0.0
+      <<: *environment
       REMOTE_PDB_PORT: 4444
-    networks:
-      - bg-network
+      BEER_GARDEN_CONF: ../conf/bg-child1.yaml
     ports:
       - "2447:2447"
       - "2448:2448"
       - "4444:4444"
-    volumes:
-      - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
-      - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
-      - $PROJECT_HOME:/opt/libraries
-      - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
-      - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
-      - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
-      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
-    depends_on:
-      - mongodb
-      - rabbitmq
-      - activemq
 
   bg-child2:
-    image: beer-garden:local
+    <<: *beergarden
     container_name: bg-child2
     hostname: bg-child2
-    stdin_open: true
-    tty: true
-    command:
-      [
-        "-c",
-        "source /home/brewmeister/venv/bin/activate && /opt/scripts/move_sitecustomize.sh && python bin/app.py -c ../conf/bg-child2.yaml -l ../conf/app-logging.yaml",
-      ]
     environment:
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
-      PYTHONBREAKPOINT: remote_pdb.set_trace
-      REMOTE_PDB_HOST: 0.0.0.0
+      <<: *environment
       REMOTE_PDB_PORT: 5555
-    networks:
-      - bg-network
+      BEER_GARDEN_CONF: ../conf/bg-child2.yaml
     ports:
       - "2557:2557"
       - "2558:2558"
       - "5555:5555"
-    volumes:
-      - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
-      - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
-      - $PROJECT_HOME:/opt/libraries
-      - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
-      - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
-      - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
-      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
-    depends_on:
-      - mongodb
-      - rabbitmq
-      - activemq
 
   bg-child2-grandchild1:
-    image: beer-garden:local
+    <<: *beergarden
     container_name: bg-child2-grandchild1
     hostname: bg-child2-grandchild1
-    stdin_open: true
-    tty: true
-    command:
-      [
-        "-c",
-        "source /home/brewmeister/venv/bin/activate && /opt/scripts/move_sitecustomize.sh && python bin/app.py -c ../conf/bg-child2-grandchild1.yaml -l ../conf/app-logging.yaml",
-      ]
     environment:
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
-      PYTHONBREAKPOINT: remote_pdb.set_trace
-      REMOTE_PDB_HOST: 0.0.0.0
+      <<: *environment
       REMOTE_PDB_PORT: 6666
+      BEER_GARDEN_CONF: ../conf/bg-child2-grandchild1.yaml
     networks:
       - bg-network
     ports:
       - "2667:2667"
       - "2668:2668"
       - "6666:6666"
-    volumes:
-      - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
-      - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
-      - $PROJECT_HOME:/opt/libraries
-      - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
-      - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
-      - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
-      - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
-      - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
-    depends_on:
-      - mongodb
-      - rabbitmq
-      - activemq
 
   beer-garden-remote-plugin:
     image: beer-garden-remote-plugin:local
@@ -156,10 +96,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
-      PYTHONBREAKPOINT: remote_pdb.set_trace
-      REMOTE_PDB_HOST: 0.0.0.0
+      <<: *environment
       REMOTE_PDB_PORT: 8888
     networks:
       - bg-network
