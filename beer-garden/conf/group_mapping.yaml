@@ -1,12 +1,11 @@
-GLOBAL_SUPERUSER:
+- group: "GLOBAL_SUPERUSER"
   role_assignments:
     - role_name: superuser
       domai:
         scope: "Global"
-
-PARENT1_OPERATOR:
+- group: "PARENT1_OPERATOR"
   role_assignments:
-    - role_nam: read_only
+    - role_name: read_only
       domain:
         scope: "Garden"
         identifiers:
