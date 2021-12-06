@@ -1,8 +1,17 @@
 auth:
+  authentication_handlers:
+    basic:
+      enabled: true
+    trusted_header:
+      create_users: true
+      enabled: false
+      user_groups_header: bg-user-groups
+      username_header: bg-username
   enabled: false
+  group_definition_file: null
   guest_login_enabled: false
   role_definition_file: null
-  token_secret: ''
+  token_secret: ""
 db:
   connection:
     host: mongodb
@@ -20,12 +29,12 @@ entry:
     host: 0.0.0.0
     port: 2557
     ssl:
-      ca_cert: ''
-      ca_path: ''
+      ca_cert: ""
+      ca_path: ""
       client_cert_verify: NONE
       enabled: false
-      private_key: ''
-      public_key: ''
+      private_key: ""
+      public_key: ""
     url_prefix: /
   stomp:
     enabled: true
@@ -35,9 +44,9 @@ entry:
     port: 61613
     send_destination: bg-child2-send
     ssl:
-      ca_cert: ''
-      client_cert: ''
-      client_key: ''
+      ca_cert: ""
+      client_cert: ""
+      client_key: ""
       use_ssl: false
     subscribe_destination: bg-child2-sub
     username: beer_garden

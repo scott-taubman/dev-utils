@@ -1,7 +1,7 @@
 - group: "GLOBAL_SUPERUSER"
   role_assignments:
     - role_name: superuser
-      domai:
+      domain:
         scope: "Global"
 - group: "PARENT1_OPERATOR"
   role_assignments:

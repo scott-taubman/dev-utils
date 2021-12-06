@@ -6,6 +6,7 @@ Plug 'mileszs/ack.vim'
 Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidhalter/jedi-vim'
+Plug 'preservim/nerdtree'
 Plug 'preservim/tagbar'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
@@ -61,35 +62,14 @@ function! s:ToggleColorColumn()
 endfunction
 
 " -------------------------------------
-" netrw
-" ------------------------------------
-" toggle in left pane
-nnoremap <C-n> :Lexplore<CR>
-
-" absolute width of netrw window
-let g:netrw_winsize = -28
-
-" do not display info on the top of window
-let g:netrw_banner = 0
-
-" tree-view
-let g:netrw_liststyle = 3
-
-" sort is affecting only: directories on the top, files below
-let g:netrw_sort_sequence = '[\/]$,*'
-
-" ignore files
-let g:netrw_hide = 1
-let g:netrw_list_hide = '.*\.swp$,.*\.pyc$,__pycache__,\(^\|\s\s\)\zs\.\S\+'
-
-" use the previous window to open file
-let g:netrw_browse_split = 4
-
-" -------------------------------------
 " plugin options
 " -------------------------------------
 " ctrlp
 let g:ctrlp_custom_ignore = 'node_modules\|\.pyc$\|__pycache__'
+
+" NERDTree
+nnoremap <C-n> :NERDTreeToggle<CR>
+let NERDTreeIgnore=['node_modules','\.pyc$','__pycache__']
 
 " Tagbar
 nnoremap <C-t> :TagbarToggle<CR>

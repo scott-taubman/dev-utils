@@ -1,8 +1,17 @@
 auth:
+  authentication_handlers:
+    basic:
+      enabled: true
+    trusted_header:
+      create_users: true
+      enabled: false
+      user_groups_header: bg-user-groups
+      username_header: bg-username
   enabled: false
+  group_definition_file: null
   guest_login_enabled: false
   role_definition_file: /home/brewmeister/beer-garden/conf/roles.yaml
-  token_secret: "WHATSASECRET"
+  token_secret: WHATSASECRET
 db:
   connection:
     host: mongodb
