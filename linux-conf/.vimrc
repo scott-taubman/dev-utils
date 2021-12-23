@@ -76,6 +76,8 @@ nnoremap <C-t> :TagbarToggle<CR>
 
 " airline
 let g:airline#extensions#tagbar#flags = 'f'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " Ack
 nnoremap <Leader>/ :Ack!<Space>

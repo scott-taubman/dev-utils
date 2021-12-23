@@ -1,5 +1,5 @@
 const merge = require("webpack-merge");
-const common = require("./webpack.common.js");
+const common = require("webpack.common.js");
 
 const proxyHost = "bg-child1";
 const proxyPort = "2447";

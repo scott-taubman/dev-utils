@@ -14,6 +14,7 @@ x-volumes: &volumes
   - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
   - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
   - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
+  - $PROJECT_HOME/dev-utils/beer-garden/scripts/loaddata.py:/opt/loaddata.py
   - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
 
 x-depends-on: &depends_on
