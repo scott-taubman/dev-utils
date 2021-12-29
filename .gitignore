@@ -1,0 +1,15 @@
+# Swap files
+*.swp
+
+# Logs
+*.log
+
+# virtualenv config
+.python-version
+.venv
+
+# node files
+node_modules
+
+# submodule stuff
+.gitmodules
