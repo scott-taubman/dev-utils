@@ -36,9 +36,9 @@ function start {
     cd $PROJECT_HOME/dev-utils/beer-garden
 
     if [ "$1" = "all" ]; then
-        container_list="bg-parent1-ui bg-parent1-ui-react bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui"
+        container_list="proxy bg-parent1-ui-react bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui"
     else
-        container_list="bg-parent1-ui"
+        container_list="proxy"
     fi
 
     docker-compose up -d $container_list
@@ -50,8 +50,7 @@ function stop {
 }
 
 function restart {
-    docker stop bg-parent1 && docker rm bg-parent1
-    start
+    docker restart bg-parent1
 }
 
 function log {

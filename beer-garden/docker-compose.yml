@@ -9,20 +9,20 @@ x-environment: &environment
 x-volumes: &volumes
   - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
   - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
-  - $PROJECT_HOME:/opt/libraries
   - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
-  - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
-  - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
   - $PROJECT_HOME/dev-utils/beer-garden/scripts/scratch.py:/opt/scratch.py
   - $PROJECT_HOME/dev-utils/beer-garden/scripts/loaddata.py:/opt/loaddata.py
+  - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
+  - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
   - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
+  - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/opt/ca-crt.pem
 
 x-depends-on: &depends_on
   - mongodb
   - rabbitmq
   - activemq
 
-x-beer-garden: &beergarden
+x-beergarden: &beergarden
   image: beer-garden:local
   stdin_open: true
   tty: true
@@ -104,11 +104,10 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - $PROJECT_HOME/remote-plugins:/home/brewmeister/beer-garden/plugins
-      - $PROJECT_HOME:/opt/libraries
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
+      - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/opt/ca-crt.pem
 
   bg-parent1-ui:
     image: beer-garden-ui:local
@@ -216,6 +215,24 @@ services:
       - "8161:8161"
     volumes:
       - $PROJECT_HOME/beer-garden/docker/docker-compose/data/activemq-config/etc-override-non-ssl:/var/lib/artemis/etc-override
+
+  proxy:
+    container_name: proxy
+    image: nginx:latest
+    restart: always
+    volumes:
+      - $PROJECT_HOME/dev-utils/beer-garden/conf/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - $PROJECT_HOME/dev-utils/beer-garden/conf/nginx/conf.d:/etc/nginx/conf.d
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/proxy-crt.pem:/etc/nginx/ssl/server.crt
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/proxy-key.pem:/etc/nginx/ssl/server.key
+      - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/etc/nginx/ssl/ca_bundle.pem
+    ports:
+      - 8000:8000
+      - 8444:8444
+    depends_on:
+      - bg-parent1-ui
+    networks:
+      - bg-network
 
 networks:
   bg-network:

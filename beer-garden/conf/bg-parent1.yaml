@@ -4,14 +4,14 @@ auth:
       enabled: true
     trusted_header:
       create_users: true
-      enabled: false
-      user_groups_header: bg-user-groups
-      username_header: bg-username
-  enabled: false
-  group_definition_file: null
+      enabled: true
+      user_groups_header: Bg-User-Groups
+      username_header: Bg-Username
+  enabled: true
+  group_definition_file: /home/brewmeister/beer-garden/conf/groups.yaml
   guest_login_enabled: false
   role_definition_file: /home/brewmeister/beer-garden/conf/roles.yaml
-  token_secret: WHATSASECRET
+  token_secret: WHATASECRET
 db:
   connection:
     host: mongodb
@@ -42,13 +42,13 @@ entry:
     host: activemq
     password: password
     port: 61613
-    send_destination: ""
+    send_destination: bg-parent1-send
     ssl:
       ca_cert: ""
       client_cert: ""
       client_key: ""
       use_ssl: false
-    subscribe_destination: bg-parent1
+    subscribe_destination: bg-parent1-sub
     username: beer_garden
 garden:
   name: parent1
@@ -127,7 +127,7 @@ plugin:
   local:
     auth:
       password: password
-      username: global-superuser
+      username: admin
     directory: ../plugins
     host_env_vars: []
     logging:

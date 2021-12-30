@@ -25,7 +25,7 @@ loggers:
   stomp:
     level: ERROR
   urllib3:
-    level: DEBUG
+    level: INFO
 
 root:
   level: INFO

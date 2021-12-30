@@ -20,11 +20,11 @@ WORKDIR $install_dir
 RUN echo "source /home/brewmeister/venv/bin/activate" >> /home/brewmeister/.bashrc
 
 # pip installs
-COPY requirements.txt requirements-dev.txt $install_dir/
+COPY requirements.txt $install_dir/
 RUN python -m venv /home/brewmeister/venv && \
     bash -c "source /home/brewmeister/venv/bin/activate && pip install --upgrade pip" && \
     bash -c "source /home/brewmeister/venv/bin/activate && pip install ipdb remote-pdb" && \
-    bash -c "source /home/brewmeister/venv/bin/activate && pip install -r $install_dir/requirements.txt -r $install_dir/requirements-dev.txt"
+    bash -c "source /home/brewmeister/venv/bin/activate && pip install -r $install_dir/requirements.txt"
 
 ENTRYPOINT ["bash"]
 CMD ["-c", "source /home/brewmeister/venv/bin/activate && /opt/scripts/move_sitecustomize.sh && /home/brewmeister/beer-garden/plugins/entrypoint.sh"]

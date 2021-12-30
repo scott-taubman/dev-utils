@@ -15,3 +15,22 @@
         scope: "Garden"
         identifiers:
           name: "parent1"
+- group: "CHILD1_READER"
+  role_assignments:
+    - role_name: read_only
+      domain:
+        scope: "Garden"
+        identifiers:
+          name: "child1"
+- group: "PARENT1_READER"
+  role_assignments:
+    - role_name: read_only
+      domain:
+        scope: "Garden"
+        identifiers:
+          name: "parent1"
+- group: "ALL_READER"
+  role_assignments:
+    - role_name: read_only
+      domain:
+        scope: "Global"
