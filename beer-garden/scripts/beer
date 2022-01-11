@@ -70,7 +70,7 @@ function shell {
 }
 
 function pyshell {
-    docker exec -it bg-parent1 python
+    docker exec -it bg-parent1 /home/brewmeister/venv/bin/ipython --no-confirm-exit -i /opt/scratch.py
 }
 
 function docker_container_top {

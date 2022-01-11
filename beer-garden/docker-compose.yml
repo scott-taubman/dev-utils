@@ -104,10 +104,14 @@ services:
     ports:
       - "8888:8888"
     volumes:
+      - $PROJECT_HOME:/opt/libraries
+      - $PROJECT_HOME/remote-plugins:/home/brewmeister/beer-garden/plugins
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
       - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/opt/ca-crt.pem
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin-crt.pem:/opt/bgadmin-crt.pem
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin-key.pem:/opt/bgadmin-key.pem
 
   bg-parent1-ui:
     image: beer-garden-ui:local
