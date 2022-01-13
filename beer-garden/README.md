@@ -125,7 +125,7 @@ files you'll find there are:
   This is currently shared across all gardens.
 - **requirements.local.txt:** Allows local libraries to be used in place of the
   installed packages inside the containers. Additional details on this are
-  available in a later section.
+  available in the section on [using local libraries](#using-local-libraries).
 - **roles.yaml:** Defines the roles that will be available in your gardens and
   what permissions those roles have associated with them.
 - **webpack.bg-\<garden\>.js:** Webpack config that is used by the corresponding
