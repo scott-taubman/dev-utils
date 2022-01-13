@@ -3,8 +3,7 @@ import os
 
 import beer_garden.config
 from beer_garden.db.mongo.api import to_brewtils
-from beer_garden.db.mongo.models import (File, Garden, Job, RawFile, Request, Role,
-                                         RoleAssignment, System, User, UserToken)
+from beer_garden.db.mongo.models import *
 from brewtils.schemas import (RoleAssignmentSchema, RoleSchema, UserListSchema,
                               UserSchema)
 from brewtils.rest.client import RestClient

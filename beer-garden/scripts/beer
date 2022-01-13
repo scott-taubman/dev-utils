@@ -35,10 +35,12 @@ function build_plugin {
 function start {
     cd $PROJECT_HOME/dev-utils/beer-garden
 
-    if [ "$1" = "all" ]; then
+    if [ "$1" = "" ]; then
+        container_list="proxy"
+    elif [ "$1" = "all" ]; then
         container_list="proxy bg-parent1-ui-react bg-child1 bg-child2 bg-child2-grandchild1 bg-child2-ui"
     else
-        container_list="proxy"
+        container_list="bg-$1"
     fi
 
     docker-compose up -d $container_list
@@ -50,7 +52,13 @@ function stop {
 }
 
 function restart {
-    docker restart bg-parent1
+    if [ "$1" = "" ]; then
+        garden="parent1"
+    else
+        garden=$1
+    fi
+
+    docker restart bg-${garden}
 }
 
 function log {
@@ -70,7 +78,13 @@ function shell {
 }
 
 function pyshell {
-    docker exec -it bg-parent1 /home/brewmeister/venv/bin/ipython --no-confirm-exit -i /opt/scratch.py
+    if [ "$1" = "" ]; then
+        garden="parent1"
+    else
+        garden=$1
+    fi
+
+    docker exec -it bg-${garden} /home/brewmeister/venv/bin/ipython --no-confirm-exit -i /opt/scratch.py
 }
 
 function docker_container_top {
@@ -107,7 +121,7 @@ case $command in
     "logreact"|"logr") log_react ;;
     "conf") edit_conf $1 ;;
     "shell") shell ;;
-    "pyshell") pyshell ;;
+    "pyshell") pyshell $1 ;;
     "ps") docker_container_top ;;
     "test") run_tests $@ ;;
 esac

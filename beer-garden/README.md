@@ -1,0 +1,172 @@
+# beer-garden
+
+The tools here make it easy to run development instances of Beer Garden,
+including a parent garden and several remote (child) gardens that connect to it.
+This guide will walk you through how to get everything configured and running.
+
+## Requirements
+
+See the [requirements](../README.md#requirements) section of the top level
+README.
+
+Additionally, the instructions that follow will assume that the `beer` script
+contained in the scripts folder is in your environment `PATH`. If it is not, be
+sure to substitute the full path anywhere you see `beer` in the directions.
+
+## Building the Docker Images
+
+Before you can start things, you'll need to build the the docker images. This
+can be done by running:
+
+```shell
+beer build
+beer buildui
+```
+
+There are also build commands for the React based UI and a remote plugin image,
+which you can optionally run as well:
+
+```shell
+# These are not required for standard development
+beer buildreact
+beer buildplugin
+```
+
+## Starting the Docker Containers
+
+To start a single garden (the parent) and all dependent services, just run:
+
+```shell
+beer up
+```
+
+To start an individual child garden, just specify the garden name:
+
+```shell
+beer up <garden_name>
+```
+
+To start everything, including all child gardens and the React UI for the
+"parent1" garden, run:
+
+```shell
+beer up all
+```
+
+## Stopping and Restarting
+
+You can bring down the entire docker stack via:
+
+```shell
+beer down
+```
+
+There is currently no shortcut for stopping an individual container. To do that,
+use the standard docker commands.
+
+```shell
+docker stop bg-parent1
+```
+
+To restart the container for a garden:
+
+```
+beer restart <garden_name>
+```
+
+If no garden is specified the "parent1" garden will be restarted.
+
+## Garden Config
+
+The configuration files for the gardens are stored in the `conf/` directory. The
+file you'll find there are:
+
+- **app-logging.yaml:** Sets the various logging levels for the garden. This
+  config is currently shared across all gardens.
+- **bg-\<garden\>.yaml:** Individual application configs for each garden.
+- **groups.yaml:** This is used by the nginx proxy to map a user's groups to
+  internal beer-garden role assignments.
+- **plugin-logging.yaml:** Logging settings for the plugins run by the gardens.
+  This is currently shared across all gardens.
+- **requirements.local.txt:** Allows local libraries to be used in place of the
+  installed packages inside the containers. Additional details on this are
+  available in a later section.
+- **roles.yaml:** Defines the roles that will be available in your gardens and
+  what permissions those roles have associated with them.
+- **webpack.bg-\<garden\>.js:** Webpack config that is used by the corresponding
+  garden's UI container.
+- **nginx:** This folder contains configuration used by the nginx ssl proxy.
+
+A shortcut is available for opening the main application config in vim:
+
+```
+beer conf <garden_name>
+```
+
+## Browser Access
+
+The UI for the parent1 garden is available at the following addresses:
+
+- http://localhost:8080
+- https://localhost:8000
+
+The https address must be used if auth is enabled on your garden and you want to
+authenticate using certificates. More detail on using certificates is
+[available here](#user-certificates).
+
+## Python Shell Access
+
+It is often useful to get open a shell to be able to interact with your garden
+via python. To do this:
+
+```shell
+beer pyshell <garden_name>
+```
+
+If no garden name is specified, the default is "parent1".
+
+The shell that you are dropped into here has a bunch of conveniences setup for
+use.
+
+- The mongoengine connection to your gardens database is already established.
+- All of the beer-garden models are already imported.
+- beer_garden.config is imported.
+- An EasyClient instance is already setup under the variable `ec`.
+- A RestClient is also setup under the variable `rc`.
+
+**Note:** The EasyClient and RestClient are setup without authentication. If
+auth is enabled on your garden, additional setup will be needed to use these.
+
+## Certificates
+
+The certs directory contains a collection of certificates that can be used
+during development of Beer Garden. The included certificates are described
+below.
+
+### Proxy certificate
+
+The `proxy.crt` and `proxy.key` are for use with the nginx SSL proxy. The nginx
+container that is started by the `docker-compose.yml` will use these.
+
+The certificate is configured with several aliases so that it will pass
+verification in different contexts:
+
+- proxy
+- localhost
+- 127.0.0.1
+
+### User certificates
+
+The remaining certificates are all intended to be used as user certificates,
+allowing for testing of users with different roles and permissions assigned. The
+certificates are named according to the username, which is intended to be
+descriptive of level of access. The users are:
+
+- allreader: Read only access to all gardens
+- bgadmin: Superuser access to all gardens
+- c1reader: Read only access to the "child1" garden
+- p1operator: Operator access to the "parent1" garden
+
+Each user has a `.crt`, `.key`, and `.p12` file. The `.crt` and `.key` can be
+used for configuring access for a plugin or EasyClient connection, while the
+`.p12` file can be imported into a browser and used to authenticate to the UI.

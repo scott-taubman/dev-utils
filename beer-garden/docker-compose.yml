@@ -15,7 +15,7 @@ x-volumes: &volumes
   - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
   - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
   - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
-  - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/opt/ca-crt.pem
+  - $PROJECT_HOME/dev-utils/certs/ca-root.crt:/opt/ca-root.crt
 
 x-depends-on: &depends_on
   - mongodb
@@ -109,9 +109,9 @@ services:
       - $PROJECT_HOME/dev-utils/docker-scripts/move_sitecustomize.sh:/opt/scripts/move_sitecustomize.sh
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
-      - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/opt/ca-crt.pem
-      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin-crt.pem:/opt/bgadmin-crt.pem
-      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin-key.pem:/opt/bgadmin-key.pem
+      - $PROJECT_HOME/dev-utils/certs/ca-root.crt:/opt/ca-root.crt
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin.crt:/opt/bgadmin.crt
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin.key:/opt/bgadmin.key
 
   bg-parent1-ui:
     image: beer-garden-ui:local
@@ -227,9 +227,9 @@ services:
     volumes:
       - $PROJECT_HOME/dev-utils/beer-garden/conf/nginx/nginx.conf:/etc/nginx/nginx.conf
       - $PROJECT_HOME/dev-utils/beer-garden/conf/nginx/conf.d:/etc/nginx/conf.d
-      - $PROJECT_HOME/dev-utils/beer-garden/certs/proxy-crt.pem:/etc/nginx/ssl/server.crt
-      - $PROJECT_HOME/dev-utils/beer-garden/certs/proxy-key.pem:/etc/nginx/ssl/server.key
-      - $PROJECT_HOME/dev-utils/certs/ca-crt.pem:/etc/nginx/ssl/ca_bundle.pem
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/proxy.crt:/etc/nginx/ssl/server.crt
+      - $PROJECT_HOME/dev-utils/beer-garden/certs/proxy.key:/etc/nginx/ssl/server.key
+      - $PROJECT_HOME/dev-utils/certs/ca-root.crt:/etc/nginx/ssl/ca_bundle.pem
     ports:
       - 8000:8000
       - 8444:8444
