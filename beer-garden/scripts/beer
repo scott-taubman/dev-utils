@@ -62,11 +62,23 @@ function restart {
 }
 
 function log {
-    docker logs --tail 20 -f bg-parent1
+    if [ "$1" = "" ]; then
+        garden="parent1"
+    else
+        garden=$1
+    fi
+
+    docker logs --tail 20 -f bg-${garden}
 }
 
 function log_ui {
-    docker logs --tail 20 -f bg-parent1-ui
+    if [ "$1" = "" ]; then
+        garden="parent1"
+    else
+        garden=$1
+    fi
+
+    docker logs --tail 20 -f bg-${garden}-ui
 }
 
 function log_react {
@@ -120,8 +132,8 @@ case $command in
     "up"|"start") start $1 ;;
     "down"|"stop") stop ;;
     "restart") restart ;;
-    "log") log ;;
-    "logui") log_ui ;;
+    "log") log $1 ;;
+    "logui") log_ui $1 ;;
     "logreact"|"logr") log_react ;;
     "conf") edit_conf $1 ;;
     "shell") shell ;;
