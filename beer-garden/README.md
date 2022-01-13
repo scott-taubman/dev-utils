@@ -250,3 +250,13 @@ descriptive of level of access. The users are:
 Each user has a `.crt`, `.key`, and `.p12` file. The `.crt` and `.key` can be
 used for configuring access for a plugin or EasyClient connection, while the
 `.p12` file can be imported into a browser and used to authenticate to the UI.
+
+## Known Issues
+
+The following are a list of known issues that will likely be addressed in the
+future.
+
+- As previously mentioned, plugins may fail to start initially due to user
+  accounts not being created prior to initial startup.
+- The UI containers are slow to start and do not have live reloading. This makes
+  iterating on UI changes slower than it ought to be.
