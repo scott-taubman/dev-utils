@@ -105,6 +105,10 @@ function edit_conf {
     vim $PROJECT_HOME/dev-utils/beer-garden/conf/bg-${garden}.yaml
 }
 
+function load {
+  docker exec bg-parent1 /home/brewmeister/venv/bin/ipython /opt/loaddata.py
+}
+
 command=$1
 shift
 
@@ -124,4 +128,5 @@ case $command in
     "pyshell") pyshell $1 ;;
     "ps") docker_container_top ;;
     "test") run_tests $@ ;;
+    "load") load ;;
 esac

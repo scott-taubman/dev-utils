@@ -53,12 +53,27 @@ To start everything, including all child gardens and the React UI for the
 beer up all
 ```
 
+**Note:** No user accounts are available upon garden creation. If you have auth
+enabled, your plugins may initially fail to connect to the garden. If this
+happens [load the user account data](#loading-useful-data) after your garden
+initially starts, then restart your garden.
+
 ## Stopping and Restarting
 
 You can bring down the entire docker stack via:
 
 ```shell
 beer down
+```
+
+This will stop and remove all of the running containers. It will not remove any
+docker volumes, which allows data, such as your mongo database, to persist even
+after the containers are removed. If you want a totally clean start, you can
+remove the docker volumes as well:
+
+```shell
+beer down
+docker volume prune
 ```
 
 There is currently no shortcut for stopping an individual container. To do that,
@@ -76,10 +91,30 @@ beer restart <garden_name>
 
 If no garden is specified the "parent1" garden will be restarted.
 
+## Loading Useful Data
+
+A helper script can be run to load a handful of user accounts and configure the
+child garden connections for the "parent1" garden.
+
+```shell
+beer load
+```
+
+This will create the following users, all sharing the same password: "password".
+
+- p1reader: Read only access to the parent1 garden
+- p1c1reader: Read only access to parent1 and child1
+- echooperator: Operator access for systems names "echo" across all gardens
+- admin: Superuser access on all gardens
+
+**Note:** These user accounts are intentionally distinct from the ones with
+[certificates](#user-certificates). This was done to make it more clear what is
+being tested when logging in via certificates versus a username and password.
+
 ## Garden Config
 
 The configuration files for the gardens are stored in the `conf/` directory. The
-file you'll find there are:
+files you'll find there are:
 
 - **app-logging.yaml:** Sets the various logging levels for the garden. This
   config is currently shared across all gardens.
@@ -114,6 +149,11 @@ The https address must be used if auth is enabled on your garden and you want to
 authenticate using certificates. More detail on using certificates is
 [available here](#user-certificates).
 
+**Tip:** If you are using certificate authentication, putting your browser in
+private or incognito mode is the easiest way to switch between certificates.
+Every time you close your private browser session and start a new one, you will
+be prompted to select your certificate again.
+
 ## Python Shell Access
 
 It is often useful to get open a shell to be able to interact with your garden
@@ -136,6 +176,46 @@ use.
 
 **Note:** The EasyClient and RestClient are setup without authentication. If
 auth is enabled on your garden, additional setup will be needed to use these.
+
+## Debugging
+
+[Remote-Pdb](https://pypi.org/project/remote-pdb/) is installed in the garden
+containers and the appropriate ports are exposed to allow you to connect to the
+debugger. Simply insert python's built in `breakpoint()` command before the line
+you would like to stop at and then restart your garden.
+
+Once the breakpoint has been triggered, you can use telnet to connect to the
+debugger like so:
+
+```shell
+telnet localhost 3333
+```
+
+The port number varies per garden:
+
+- 3333 - parent1
+- 4444 - child1
+- 5555 - child2
+- 6666 - child2-grandchild1
+
+## Using Local Libraries
+
+In cases where you are developing changes to brewtils and want to run your
+beer-garden instance using your locally checked out copy of brewtils, you can
+add brewtils to the `conf/requirements.local.txt` file. Then start or restart
+your garden and brewtils will be loaded from `$PROJECT_HOME/brewtils` rather
+than the version pip installed in the container. For example:
+
+```shell
+# Switch to using locally checked out brewtils
+cd $PROJECT_HOME/dev-utils/beer-garden/conf
+echo brewtils > requirements.local.txt
+beer restart
+
+# Revert back to using the pip installed version
+echo "" > requirements.local.txt
+beer restart
+```
 
 ## Certificates
 
