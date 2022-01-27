@@ -109,7 +109,7 @@ parent:
     username: admin
   skip_events: []
   stomp:
-    enabled: true
+    enabled: false
     headers: []
     host: activemq
     password: password

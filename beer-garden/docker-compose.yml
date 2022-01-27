@@ -7,6 +7,7 @@ x-environment: &environment
   REMOTE_PDB_HOST: 0.0.0.0
 
 x-volumes: &volumes
+  - $PROJECT_HOME:/opt/libraries
   - $PROJECT_HOME/beer-garden/src/app:/home/brewmeister/beer-garden/app
   - $PROJECT_HOME/beer-garden-plugins:/home/brewmeister/beer-garden/plugins
   - $PROJECT_HOME/dev-utils/beer-garden/conf:/home/brewmeister/beer-garden/conf
@@ -126,7 +127,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - $PROJECT_HOME/beer-garden/src/ui:/opt/beer-garden/ui
+      - $PROJECT_HOME/beer-garden/src/ui:/home/brewmeister/beer-garden/ui
       - $PROJECT_HOME/dev-utils/beer-garden/conf/webpack.bg-parent1.js:/opt/conf/webpack.dev-utils.js
     depends_on:
       - bg-parent1

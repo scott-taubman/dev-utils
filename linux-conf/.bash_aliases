@@ -50,7 +50,9 @@ function beer() {
 }
 
 function docker_container_top() {
-    docker container top $1 -o pid,ppid,args
+    container=$1
+    shift
+    docker top $container -o pid,ppid,args $@
 }
 
 function docker_stop_and_rm() {
