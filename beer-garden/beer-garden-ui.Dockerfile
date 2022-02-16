@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:16
 
 ARG user_uid=1002
 ARG install_dir=/home/brewmeister/beer-garden/ui
