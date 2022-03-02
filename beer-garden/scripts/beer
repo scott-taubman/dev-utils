@@ -158,17 +158,18 @@ function api {
     curl -s -H 'Accept: application/json' -H "Authorization: Bearer `cat $PROJECT_HOME/.bglogin`" ${url} | jq .
 }
 
-function patch {
+function post_patch {
     if [ ! -f $PROJECT_HOME/.bglogin ]; then
         echo "No auth token found. Use 'beer login' and then try again"
         exit
     fi
 
-    url=http://localhost:8080/api/v1/$1
-    shift
+    method=$1
+    url=http://localhost:8080/api/v1/$2
+    shift 2
     data=$@
 
-    curl -X PATCH -H 'Accept: application/json' -H "Content-Type: application/json" -H "Authorization: Bearer `cat $PROJECT_HOME/.bglogin`" --data "${data}" ${url} | jq .
+    curl -X ${method} -H 'Accept: application/json' -H "Content-Type: application/json" -H "Authorization: Bearer `cat $PROJECT_HOME/.bglogin`" --data "${data}" ${url} | jq .
 }
 
 command=$1
@@ -193,5 +194,6 @@ case $command in
     "load") load ;;
     "login") login $1;;
     "api") api $1;;
-    "patch") patch $@;;
+    "patch") post_patch PATCH $@;;
+    "post") post_patch POST $@;;
 esac
