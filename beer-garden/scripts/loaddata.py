@@ -1,7 +1,7 @@
 import os
 
 from beer_garden.db.mongo.models import Garden, Role, RoleAssignment, User
-from mongoengine import connect, NotUniqueError
+from mongoengine import NotUniqueError, connect
 
 hostname = os.uname().nodename
 connect(db=f"{hostname}", host="mongodb://mongodb")
@@ -22,9 +22,36 @@ p1_operator_ra1 = RoleAssignment(
 c1_read_only_ra1 = RoleAssignment(
     role=read_only, domain={"scope": "Garden", "identifiers": {"name": "child1"}}
 )
-echo_operator_ra1 = RoleAssignment(
-    role=operator, domain={"scope": "System", "identifiers": {"name": "echo"}}
-)
+echo_operator_ras = [
+    RoleAssignment(
+        role=operator,
+        domain={
+            "scope": "System",
+            "identifiers": {"namespace": "parent1", "name": "echo"},
+        },
+    ),
+    RoleAssignment(
+        role=operator,
+        domain={
+            "scope": "System",
+            "identifiers": {"namespace": "child1", "name": "echo"},
+        },
+    ),
+    RoleAssignment(
+        role=operator,
+        domain={
+            "scope": "System",
+            "identifiers": {"namespace": "child2", "name": "echo"},
+        },
+    ),
+    RoleAssignment(
+        role=operator,
+        domain={
+            "scope": "System",
+            "identifiers": {"namespace": "child2-grandchild1", "name": "echo"},
+        },
+    ),
+]
 global_read_only_ra1 = RoleAssignment(role=read_only, domain={"scope": "Global"})
 admin_ra1 = RoleAssignment(role=superuser, domain={"scope": "Global"})
 
@@ -54,7 +81,7 @@ except NotUniqueError:
 
 echooperator = User(username="echooperator")
 echooperator.set_password("password")
-echooperator.role_assignments = [echo_operator_ra1]
+echooperator.role_assignments = echo_operator_ras
 try:
     echooperator.save()
 except NotUniqueError:
@@ -68,43 +95,65 @@ try:
 except NotUniqueError:
     print("admin already exists")
 
+
 ############################
 # Garden setup
 ############################
-try:
-    child1 = Garden.objects.get(name="child1")
-except Garden.DoesNotExist:
-    child1 = Garden(name="child1")
+if hostname == "bg-parent1":
+    try:
+        child1 = Garden.objects.get(name="child1")
+    except Garden.DoesNotExist:
+        child1 = Garden(name="child1")
 
-child1.connection_type = "HTTP"
-child1.connection_params = {
-    "http": {
-        "port": 2447,
-        "ssl": False,
-        "url_prefix": "/",
-        "ca_verify": False,
-        "host": "bg-child1",
-    },
-}
-child1.save()
-print("child1 connection configured")
+    child1.connection_type = "HTTP"
+    child1.connection_params = {
+        "http": {
+            "port": 2447,
+            "ssl": False,
+            "url_prefix": "/",
+            "ca_verify": False,
+            "host": "bg-child1",
+        },
+    }
+    child1.save()
+    print("child1 connection configured")
 
-try:
-    child2 = Garden.objects.get(name="child2")
-except Garden.DoesNotExist:
-    child2 = Garden(name="child2")
+    try:
+        child2 = Garden.objects.get(name="child2")
+    except Garden.DoesNotExist:
+        child2 = Garden(name="child2")
 
-child2.connection_type = "STOMP"
-child2.connection_params = {
-    "stomp": {
-        "headers": [{}],
-        "host": "activemq",
-        "port": 61613,
-        "send_destination": "bg-child2-sub",
-        "subscribe_destination": "bg-child2-send",
-        "username": "beer_garden",
-        "password": "password",
-    },
-}
-child2.save()
-print("child2 connection configured")
+    child2.connection_type = "STOMP"
+    child2.connection_params = {
+        "stomp": {
+            "headers": [{}],
+            "host": "activemq",
+            "port": 61613,
+            "send_destination": "bg-child2-sub",
+            "subscribe_destination": "bg-child2-send",
+            "username": "beer_garden",
+            "password": "password",
+        },
+    }
+    child2.save()
+    print("child2 connection configured")
+elif hostname == "bg-child2":
+    try:
+        child2_grandchild1 = Garden.objects.get(name="child2-granchild1")
+    except Garden.DoesNotExist:
+        child2_grandchild1 = Garden(name="child2-grandchild1")
+
+    child2_grandchild1.connection_type = "STOMP"
+    child2_grandchild1.connection_params = {
+        "stomp": {
+            "headers": [{}],
+            "host": "activemq",
+            "port": 61613,
+            "send_destination": "bg-child2-grandchild1-sub",
+            "subscribe_destination": "bg-child2-grandchild1-send",
+            "username": "beer_garden",
+            "password": "password",
+        },
+    }
+    child2_grandchild1.save()
+    print("child2-grandchild1 connection configured")

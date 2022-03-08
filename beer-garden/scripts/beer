@@ -118,7 +118,13 @@ function edit_conf {
 }
 
 function load {
-  docker exec bg-parent1 /home/brewmeister/venv/bin/ipython /opt/loaddata.py
+    if [ "$1" = "" ]; then
+        garden="parent1"
+    else
+        garden=$1
+    fi
+
+    docker exec bg-${garden} /home/brewmeister/venv/bin/ipython /opt/loaddata.py
 }
 
 function login {
@@ -182,7 +188,7 @@ case $command in
     "buildplugin"|"buildp") build_plugin ;;
     "up"|"start") start $1 ;;
     "down"|"stop") stop ;;
-    "restart") restart ;;
+    "restart") restart $1 ;;
     "log") log $1 ;;
     "logui") log_ui $1 ;;
     "logreact"|"logr") log_react ;;
@@ -191,7 +197,7 @@ case $command in
     "pyshell") pyshell $1 ;;
     "ps") docker_container_top ;;
     "test") run_tests $@ ;;
-    "load") load ;;
+    "load") load $1;;
     "login") login $1;;
     "api") api $1;;
     "patch") post_patch PATCH $@;;
