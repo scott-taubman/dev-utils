@@ -7,9 +7,11 @@ auth:
       enabled: true
       user_groups_header: Bg-User-Groups
       username_header: Bg-Username
+  default_admin:
+    password: password
+    username: admin
   enabled: true
   group_definition_file: /home/brewmeister/beer-garden/conf/groups.yaml
-  guest_login_enabled: false
   role_definition_file: /home/brewmeister/beer-garden/conf/roles.yaml
   token_secret: WHATASECRET
 db:

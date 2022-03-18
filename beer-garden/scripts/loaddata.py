@@ -113,6 +113,8 @@ if hostname == "bg-parent1":
             "url_prefix": "/",
             "ca_verify": False,
             "host": "bg-child1",
+            "username": "admin",
+            "password": "password",
         },
     }
     child1.save()
