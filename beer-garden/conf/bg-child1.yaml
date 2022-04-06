@@ -10,7 +10,7 @@ auth:
   default_admin:
     password: password
     username: admin
-  enabled: true
+  enabled: false
   group_definition_file: /home/brewmeister/beer-garden/conf/groups.yaml
   role_definition_file: /home/brewmeister/beer-garden/conf/roles.yaml
   token_secret: WHATASECRET

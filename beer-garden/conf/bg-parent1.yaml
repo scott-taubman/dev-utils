@@ -10,7 +10,7 @@ auth:
   default_admin:
     password: password
     username: admin
-  enabled: true
+  enabled: false
   group_definition_file: /home/brewmeister/beer-garden/conf/groups.yaml
   role_definition_file: /home/brewmeister/beer-garden/conf/roles.yaml
   token_secret: WHATASECRET
@@ -71,20 +71,20 @@ mq:
   connections:
     admin:
       password: password
-      port: 15672
+      port: 15671
       ssl:
-        ca_cert: null
+        ca_cert: /opt/ca-root.crt
         ca_verify: true
-        client_cert: null
-        enabled: false
+        client_cert: /opt/certs/bgadmin.pem
+        enabled: true
       user: beer_garden
     message:
       password: password
       port: 5672
       ssl:
-        ca_cert: null
+        ca_cert: /opt/ca-root.crt
         ca_verify: true
-        client_cert: null
+        client_cert: /opt/certs/bgadmin.pem
         enabled: false
       user: beer_garden
   exchange: beer_garden
