@@ -93,7 +93,12 @@ nnoremap <F3> :call ToggleAleFixOnSave()<cr>
 function! ToggleAleFixOnSave()
     if g:ale_fix_on_save
         let g:ale_fix_on_save = 0
+        echomsg 'ale_fix OFF'
     else
         let g:ale_fix_on_save = 1
+        echomsg 'ale_fix ON'
     endif
 endfunction
+
+" Spell Check
+nnoremap <F7> :setlocal spell! spell?<CR>

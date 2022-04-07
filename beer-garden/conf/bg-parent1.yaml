@@ -80,12 +80,12 @@ mq:
       user: beer_garden
     message:
       password: password
-      port: 5672
+      port: 5671
       ssl:
         ca_cert: /opt/ca-root.crt
         ca_verify: true
         client_cert: /opt/certs/bgadmin.pem
-        enabled: false
+        enabled: true
       user: beer_garden
   exchange: beer_garden
   heartbeat_interval: 3600
@@ -131,7 +131,12 @@ plugin:
       password: password
       username: admin
     directory: ../plugins
-    host_env_vars: []
+    host_env_vars:
+      - PYTHONDONTWRITEBYTECODE
+      - PYTHONUNBUFFERED
+      - PYTHONBREAKPOINT
+      - REMOTE_PDB_HOST
+      - REMOTE_PDB_PORT
     logging:
       config_file: ../conf/plugin-logging.yaml
       fallback_level: INFO
@@ -140,6 +145,11 @@ plugin:
       startup: 2
   mq:
     host: rabbitmq
+    ssl:
+      ca_cert: /opt/ca-root.crt
+      ca_verify: true
+      client_cert: /opt/certs/bgadmin.pem
+      enabled: true
   remote:
     logging:
       config_file: ../conf/plugin-logging.yaml

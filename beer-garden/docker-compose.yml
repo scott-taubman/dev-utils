@@ -112,8 +112,7 @@ services:
       - $PROJECT_HOME/dev-utils/docker-scripts/sitecustomize.py:/opt/scripts/sitecustomize.py
       - $PROJECT_HOME/dev-utils/beer-garden/conf/requirements.local.txt:/opt/requirements.local.txt
       - $PROJECT_HOME/dev-utils/certs/ca-root.crt:/opt/ca-root.crt
-      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin.crt:/opt/bgadmin.crt
-      - $PROJECT_HOME/dev-utils/beer-garden/certs/bgadmin.key:/opt/bgadmin.key
+      - $PROJECT_HOME/dev-utils/beer-garden/certs:/opt/certs
 
   bg-parent1-ui:
     image: beer-garden-ui:local
