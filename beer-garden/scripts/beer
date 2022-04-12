@@ -154,6 +154,12 @@ function login {
 }
 
 function api {
+    if [ "$1" = "" ]; then
+        echo "API endpoint required"
+        echo "example usage: beer api gardens"
+        exit
+    fi
+
     if [ ! -f $PROJECT_HOME/.bglogin ]; then
         echo "No auth token found. Use 'beer login' and then try again"
         exit
@@ -165,6 +171,12 @@ function api {
 }
 
 function post_patch {
+    if [ "$2" = "" ]; then
+        echo "API endpoint required"
+        echo "example usage: beer ${1,,} gardens '{\"property\": \"value\"}'"
+        exit
+    fi
+
     if [ ! -f $PROJECT_HOME/.bglogin ]; then
         echo "No auth token found. Use 'beer login' and then try again"
         exit
@@ -173,9 +185,14 @@ function post_patch {
     method=$1
     url=http://localhost:8080/api/v1/$2
     shift 2
+    if [ "$1" = "" ]; then
+        echo "data required"
+        echo "example usage: beer $1 gardens '{\"property\": \"value\"}'"
+        exit
+    fi
     data=$@
 
-    curl -X ${method} -H 'Accept: application/json' -H "Content-Type: application/json" -H "Authorization: Bearer `cat $PROJECT_HOME/.bglogin`" --data "${data}" ${url} | jq .
+    curl -s -X ${method} -H 'Accept: application/json' -H "Content-Type: application/json" -H "Authorization: Bearer `cat $PROJECT_HOME/.bglogin`" --data "${data}" ${url} | jq .
 }
 
 command=$1

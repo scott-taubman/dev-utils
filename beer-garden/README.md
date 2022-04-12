@@ -177,6 +177,44 @@ use.
 **Note:** The EasyClient and RestClient are setup without authentication. If
 auth is enabled on your garden, additional setup will be needed to use these.
 
+## API Access
+
+The swagger docs for the Beer Garden API will be available
+[here](http://localhost:8080/swagger/index.html?config=/config/swagger).
+
+There is also a command line api helper available that be used as follows:
+
+```shell
+  beer api <endpoint>
+```
+
+For example:
+
+```shell
+# Retrieve all gardens
+beer api gardens
+
+# Retrieve a specific System
+beer api systems/624ef90394bf0626ce368204
+```
+
+You can also do POST and PATCH operations:
+
+```shell
+beer post users '{"username": "joeuser", "password": "password"}'
+beer patch jobs/6255ba7981e7bb48ffdbdad2 '{ "operation": "update", "path": "/status", "value": "PAUSED" }'
+```
+
+These api helpers require an authentication token, which can be created for use
+by doing:
+
+```shell
+beer login <username>
+```
+
+The username provided must be a user for which there is a certificate present in
+the beer-garden/certs folder.
+
 ## Debugging
 
 [Remote-Pdb](https://pypi.org/project/remote-pdb/) is installed in the garden
