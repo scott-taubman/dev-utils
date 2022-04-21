@@ -145,11 +145,6 @@ plugin:
       startup: 2
   mq:
     host: rabbitmq
-    ssl:
-      ca_cert: /opt/ca-root.crt
-      ca_verify: true
-      client_cert: /opt/certs/bgadmin.pem
-      enabled: true
   remote:
     logging:
       config_file: ../conf/plugin-logging.yaml

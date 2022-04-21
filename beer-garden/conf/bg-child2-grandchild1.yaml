@@ -71,21 +71,21 @@ mq:
   connections:
     admin:
       password: password
-      port: 15672
+      port: 15671
       ssl:
-        ca_cert: null
+        ca_cert: /opt/ca-root.crt
         ca_verify: true
-        client_cert: null
-        enabled: false
+        client_cert: /opt/certs/bgadmin.pem
+        enabled: true
       user: beer_garden
     message:
       password: password
-      port: 5672
+      port: 5671
       ssl:
-        ca_cert: null
+        ca_cert: /opt/ca-root.crt
         ca_verify: true
-        client_cert: null
-        enabled: false
+        client_cert: /opt/certs/bgadmin.pem
+        enabled: true
       user: beer_garden
   exchange: child_garden3
   heartbeat_interval: 3600
