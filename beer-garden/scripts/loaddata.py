@@ -141,7 +141,7 @@ if hostname == "bg-parent1":
     print("child2 connection configured")
 elif hostname == "bg-child2":
     try:
-        child2_grandchild1 = Garden.objects.get(name="child2-granchild1")
+        child2_grandchild1 = Garden.objects.get(name="child2-grandchild1")
     except Garden.DoesNotExist:
         child2_grandchild1 = Garden(name="child2-grandchild1")
 
