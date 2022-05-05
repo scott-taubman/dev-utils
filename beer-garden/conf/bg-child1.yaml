@@ -10,7 +10,7 @@ auth:
   default_admin:
     password: password
     username: admin
-  enabled: false
+  enabled: true
   group_definition_file: /home/brewmeister/beer-garden/conf/groups.yaml
   role_definition_file: /home/brewmeister/beer-garden/conf/roles.yaml
   token_secret: WHATASECRET
@@ -160,7 +160,7 @@ scheduler:
   max_workers: 10
 ui:
   cors_enabled: true
-  debug_mode: true
+  debug_mode: false
   execute_javascript: false
   icon_default: fa-beer
-  name: Beer Garden
+  name: child1

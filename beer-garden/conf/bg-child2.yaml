@@ -160,7 +160,7 @@ scheduler:
   max_workers: 10
 ui:
   cors_enabled: true
-  debug_mode: true
+  debug_mode: false
   execute_javascript: false
   icon_default: fa-beer
-  name: Beer Garden
+  name: child2
