@@ -10,7 +10,8 @@ pieces.
 ## Requirements
 
 All development applications are run as docker containers, so make sure you have
-both **docker** and **docker-compose** installed.
+both **docker** and **docker compose** installed. **NOTE**: It is specifically
+the newer `docker compose` command that is needed, not the old `docker-compose`.
 
 Additionally, many of the scripts and configuration files expect that an
 environment variable named `PROJECT_HOME` exists and points to the directory

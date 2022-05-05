@@ -7,9 +7,10 @@ alias cdsitepackages="cd \`python -c 'import site; print(site.getsitepackages()[
 #alias beer="workon beer-garden && cd ~/dev/beer-garden"
 
 # docker
-alias dcu="docker-compose up"
-alias dcd="docker-compose down"
-alias dce="docker-compose exec"
+alias docker-compose="docker compose"
+alias dcu="docker compose up"
+alias dcd="docker compose down"
+alias dce="docker compose exec"
 alias de="docker exec -it"
 alias dl="docker logs --tail 20 -f" 
 alias dps="docker_container_top"
