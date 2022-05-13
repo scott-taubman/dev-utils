@@ -86,6 +86,7 @@ if executable('ag')
 endif
 
 " ALE
+set omnifunc=ale#completion#OmniFunc
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
 nmap <F12> <Plug>(ale_go_to_definition)<cr>

@@ -1,9 +1,9 @@
 " jedi autocompletion
-set omnifunc=jedi#completions
+"set omnifunc=jedi#completions
 let g:jedi#popup_on_dot=0
   
 " ALE
-let b:ale_linters = ['flake8', 'pylint', 'pyright', 'jedils']
+let b:ale_linters = ['flake8', 'jedils', 'pyright']
 let b:ale_fixers = ['black', 'isort']
 let g:ale_fix_on_save = 1
 
