@@ -7,6 +7,7 @@ Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'preservim/nerdtree'
+Plug 'preservim/vim-markdown'
 Plug 'preservim/tagbar'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
@@ -73,6 +74,9 @@ let NERDTreeIgnore=['node_modules','\.pyc$','__pycache__']
 
 " Tagbar
 nnoremap <C-t> :TagbarToggle<CR>
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
 
 " airline
 let g:airline#extensions#tagbar#flags = 'f'
